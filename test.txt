@@ -1,0 +1,41 @@
+def choose_song_to_play(self,input):
+        exported=Export_from_file.Exporter()
+        data=exported.read_from_json()
+        temp=0
+        while True:
+            if temp==1:
+                input=self.get_input()
+            match input:
+                case "0":
+                    self.__init__()
+                    return
+                case "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10":
+                    for index,json in enumerate(data,1):          
+                        if int(input) == int(index):
+                            print('Aktualna Piosenka to: ',json['title'])
+                            #url='D:\PROJEKT_MP3_PLAYER\SONGS2\{}'.format(json['title'])
+                            url='D:\PROJEKT_MP3_PLAYER\SONGS\{}'.format(json['title'])
+                            song1=song.Song(url)
+                            song1.play_song()
+                            print("Wciśnij p jeśli chcesz zpauzować/wznowić piosenke\nWciśnij s jeśli chcesz zatrzymać piosenke")
+                            
+                            while True:
+                                input_song=self.get_input()
+                                match input_song:
+                                    case 'p':
+                                        if song1.is_paused==False:
+                                            song1.pause_unpause_song()
+                                        elif song1.is_paused==True:
+                                            song1.pause_unpause_song()
+                                    case 's': 
+                                        song1.stop_song()
+                                        self.print_songs_on_console()
+                                        return
+                                                               
+                                    case _ :
+                                        print("Nie poprawny input")
+                                break
+
+                case _:
+                    print("Wpisz numer jeszcze raz")
+                    temp=1
