@@ -15,14 +15,6 @@ class Menu:
             #current_input=self.if_input_correct(given_input)  
             return given_input
     
-
-    # def if_input_correct(self,input):
-    #     while True:
-    #         if input not in self.passable_input_menu:
-    #             print('Wprowadź numer jeszcze raz')  
-    #             input = self.get_input()  
-    #         else:
-    #             return input
             
     def re_load_json(self):
         imported=Import_from_file.Importer()

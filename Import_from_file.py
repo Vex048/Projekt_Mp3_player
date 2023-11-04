@@ -14,9 +14,6 @@ class Importer:
         for filename in os.listdir('D:\PROJEKT_MP3_PLAYER\SONGS'):
             f=os.path.join(filename)
             audio=eyed3.load(f)
-            # title=audio.tag.title
-            # artist=audio.tag.artist
-            # mydict = {'title': title, 'author': artist}
             mydict={'title': str(audio)}
             all_songs.append(mydict)
             with open('D:\PROJEKT_MP3_PLAYER\playlist.json','w') as f:
