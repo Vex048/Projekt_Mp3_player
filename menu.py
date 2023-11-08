@@ -45,6 +45,12 @@ class Menu:
             case "4":
                 self.add_song()
                 self.__init__()                        
+            case "p":               
+                self.check_for_song_inputs(input1)
+            case "s":
+                self.check_for_song_inputs(input1)        
+            case "v":
+                self.check_for_song_inputs(input1)
             case _:
                 print("Nie poprawny input")
         
@@ -55,21 +61,53 @@ class Menu:
             data=exported.read_from_json()
             for index,json in enumerate(data,1):
                 print(index ,'Title:', json['title'])
-            input=self.get_input()
-            if input == "0":
+            input=self.get_input()          
+            
+            new_input=self.songs_input_if_passable(input)
+            if new_input == "0":
                 self.__init__()
                 return
-            new_input=self.songs_input_if_passable(input)
+            print("Ten input: ",new_input)
             self.choose_song_to_play(str(new_input))
             return
             
     def songs_input_if_passable(self,input_temp):
-        if input_temp not in self.list_passable:
-            print("Nie poprawny input", input_temp)
+        if input_temp in self.list_passable:
+            return input_temp           
+        elif input_temp == "p" or input_temp =="s" or input_temp == "v":
+            self.check_for_song_inputs(input_temp)
             input_temp=self.get_input()
             return self.songs_input_if_passable(input_temp)
+        elif input_temp == "0":
+            self.__init__()
+            return "0"
         else:
-            return input_temp
+            print("Nie poprawny input")
+            input_temp=self.get_input()
+            return self.songs_input_if_passable(input_temp)
+            
+        
+    def check_for_song_inputs(self,input):
+            try:
+                match input:
+                    case 'p':
+                        song_current.pause_unpause_song()
+                    case 's': 
+                        song_current.stop_song()
+                        return  
+                    case 'v':
+                        print("Ustaw wartość dźwięku pomiędzy <0;1>")
+                        while True:
+                            volume=self.get_input()
+                            volume=float(volume)
+                            if volume >=0 and volume <=1:
+                                song_current.set_volume(volume)
+                                break
+                            else:
+                                print("Wpisz glośnosc jeszcze raz")   
+            except:
+                print("Nie ma puszczanej żadnej piosneki")   
+
 
     def check_for_passable_input(self):
         expo=Export_from_file.Exporter()
@@ -78,12 +116,16 @@ class Menu:
             self.list_passable.append(str(i+1))
 
     def choose_song_to_play(self,input1):
+        if input1 ==  "0":
+            self.__init__()
+            return
         exported=Export_from_file.Exporter()
         data=exported.read_from_json()
         for index,json in enumerate(data,1):          
             if int(input1) == int(index):
                 print('Aktualna Piosenka to: ',json['title'])
                 url='D:\PROJEKT_MP3_PLAYER\SONGS\{}'.format(json['title'])
+                global song_current
                 song_current=song.Song(url)
                 song_current.set_volume(0.1)
                 song_current.play_song()
@@ -93,7 +135,6 @@ class Menu:
                     if song_current.check_if_finished() == True:
                         break
                     input_song=self.get_input()
-                    print(song_current.is_played,type(song_current))
                     match input_song:
                         case 'p':
                             song_current.pause_unpause_song()
@@ -113,15 +154,9 @@ class Menu:
                                     song_current.set_volume(volume)
                                     break
                                 else:
-                                    print("Wpisz glośnosc jeszcze raz")
-                                                                                          
+                                    print("Wpisz glośnosc jeszcze raz")                                                              
                         case _ :
                             print("Nie poprawny input")
     
             
-           
-            
-
-
-
-        
+ 
