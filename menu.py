@@ -67,7 +67,7 @@ class Menu:
             if new_input == "0":
                 self.__init__()
                 return
-            print("Ten input: ",new_input)
+            
             self.choose_song_to_play(str(new_input))
             return
             
