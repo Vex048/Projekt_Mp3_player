@@ -6,6 +6,7 @@ class Song:
         self.is_played=False
         self.url=url
 
+    
     def play_song(self):
         mixer.init()
         mixer.music.load(self.url)
@@ -18,7 +19,15 @@ class Song:
         else:
             self.is_played=False  
         
-    
+    def input_for_playing_song(self,input):
+        match input:
+            case "p":
+                if self.is_played == True:
+                    self.pause_unpause_song()
+            case "s":
+                if self.is_played == True:
+                    self.stop_song()
+
     def set_volume(self,volumee):
         mixer.music.set_volume(volumee)
         print("Ustawiono wartość dzwięku na:{}".format(volumee))
@@ -33,7 +42,11 @@ class Song:
             self.is_played=True
             print("Odpauzowano ppiosenke")
 
-        
+    def is_playing(self):
+        if self.is_played == True:
+            return True
+        else:
+            return False
         
     
     def stop_song(self):
