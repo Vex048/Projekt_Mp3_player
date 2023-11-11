@@ -1,5 +1,4 @@
 from pygame import mixer
-import queue_1
 class Song:
     is_played=None
     is_paused=None
@@ -54,13 +53,17 @@ class Song:
         else:
             print("Nie puszczana jest żadna piosenka")
 
-    def play_next_song(self):
-        if queue_1.queue.songs_queue == []:
+    def play_next_song(self,current_queue):
+        if current_queue.songs_queue == []:
             return "Nie ma żadnej muzyki w kolejce"
         else:
-            next_song=queue_1.queue.play_from_queue()
-            mixer.music.queue(next_song)
+            next_song_url=current_queue.play_from_queue()
+            print(next_song_url)
+            #mixer.music.queue(next_song)
             self.stop_song()
+            new_song=Song(next_song_url)
+            new_song.play_song()
+            
 
 
 

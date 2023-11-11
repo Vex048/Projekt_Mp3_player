@@ -2,6 +2,7 @@ import song
 import Import_from_file
 import Export_from_file
 import music_from_yt
+import queue_1
 class Menu:
     list_passable=[]
     is_active=True
@@ -125,6 +126,10 @@ class Menu:
             if int(input1) == int(index):
                 print('Aktualna Piosenka to: ',json['title'])
                 url='D:\PROJEKT_MP3_PLAYER\SONGS\{}'.format(json['title'])
+                global queue
+                queue=queue_1.Queue()
+                queue.create_queue_from_file()
+                queue.fill_up_queue(json['title'])
                 global song_current
                 song_current=song.Song(url)
                 song_current.set_volume(0.1)
@@ -154,7 +159,10 @@ class Menu:
                                     song_current.set_volume(volume)
                                     break
                                 else:
-                                    print("Wpisz glośnosc jeszcze raz")                                                              
+                                    print("Wpisz glośnosc jeszcze raz")  
+                        case 'n':
+                            song_current.play_next_song(queue)
+                            print("Odpalono nastepna piosenke z playlisty")                                                                                     
                         case _ :
                             print("Nie poprawny input")
     

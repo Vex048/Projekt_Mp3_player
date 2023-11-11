@@ -33,8 +33,8 @@ class Queue:
 
 
 
-queue=Queue()
-queue.create_queue_from_file()
-queue.fill_up_queue("Warriors.mp3")
-print(queue.songs_queue)
-print(queue.play_from_queue())
+# queue=Queue()
+# queue.create_queue_from_file()
+# queue.fill_up_queue("Warriors.mp3")
+# print(queue.songs_queue)
+# print(queue.play_from_queue())
