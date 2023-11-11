@@ -10,7 +10,13 @@ class Queue:
         if song not in self.songs_queue:
             self.songs_queue.append(song)
 
-    def play_from_queue(self):
+    def check_for_songs_queue(self,current_song):
+        if self.songs_queue == []:
+            self.fill_up_queue(current_song)
+        else:
+            return 
+
+    def get_from_queue(self):
         current_song=self.songs_queue[0]
         self.songs_queue.pop(0)
         return current_song
@@ -32,9 +38,3 @@ class Queue:
                 self.get_song_to_queue(url)
 
 
-
-# queue=Queue()
-# queue.create_queue_from_file()
-# queue.fill_up_queue("Warriors.mp3")
-# print(queue.songs_queue)
-# print(queue.play_from_queue())

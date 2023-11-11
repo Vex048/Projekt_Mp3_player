@@ -54,16 +54,22 @@ class Song:
             print("Nie puszczana jest żadna piosenka")
 
     def play_next_song(self,current_queue):
-        if current_queue.songs_queue == []:
-            return "Nie ma żadnej muzyki w kolejce"
+        if len(current_queue.songs_queue) == 0:
+            return 0
         else:
-            next_song_url=current_queue.play_from_queue()
+            next_song_url=current_queue.get_from_queue()
             print(next_song_url)
-            #mixer.music.queue(next_song)
             self.stop_song()
-            new_song=Song(next_song_url)
+            new_song=Song(next_song_url) 
             new_song.play_song()
-            
+    def queue_song(self,current_queue):
+        if len(current_queue.songs_queue) == 0:
+            print("nie ma aktualnie piosenki w playliscie")
+        else:
+            next_song_url=current_queue.get_from_queue()
+            mixer.music.queue(next_song_url)
+         
+              
 
 
 

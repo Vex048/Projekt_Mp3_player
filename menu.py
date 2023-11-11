@@ -135,8 +135,11 @@ class Menu:
                 song_current.set_volume(0.1)
                 song_current.play_song()
                 print("Wciśnij p jeśli chcesz zpauzować/wznowić piosenke\nWciśnij s jeśli chcesz zatrzymać piosenke\nWciśnij 0 aby, wrocic do wyboru muzyki")
-                print('Wciśnij v jesli chcesz zmienic glośnosc')      
+                print('Wciśnij v jesli chcesz zmienic glośnosc')
+                print("Wciśnij n jeśli chcesz przesunąć o jedną piosenkę do przodu")      
                 while True:
+                    queue.check_for_songs_queue(song_current)
+                    #song_current.queue_song(queue)
                     if song_current.check_if_finished() == True:
                         break
                     input_song=self.get_input()
@@ -161,8 +164,10 @@ class Menu:
                                 else:
                                     print("Wpisz glośnosc jeszcze raz")  
                         case 'n':
-                            song_current.play_next_song(queue)
-                            print("Odpalono nastepna piosenke z playlisty")                                                                                     
+                            if song_current.play_next_song(queue) == 0:
+                                print("Nie ma nic w playliscie")
+                            else:
+                                print("Odpalono nastepna piosenke z playlisty")                                                                                     
                         case _ :
                             print("Nie poprawny input")
     
