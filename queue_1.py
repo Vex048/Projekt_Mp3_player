@@ -28,7 +28,7 @@ class Queue:
             if music['title'] == current_song:
                 continue
             else:
-                url='C:\PROJEKT_Mp3Player\SONGS\{}'.format(music['title'])
+                url='D:\PROJEKT_Mp3_Player\SONGS\{}'.format(music['title'])
                 self.get_song_to_queue(url)
 
 
