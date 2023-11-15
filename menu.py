@@ -52,6 +52,8 @@ class Menu:
                 self.check_for_song_inputs(input1)        
             case "v":
                 self.check_for_song_inputs(input1)
+            case 'n':
+                self.check_for_song_inputs(input1)
             case _:
                 print("Nie poprawny input")
         
@@ -75,7 +77,7 @@ class Menu:
     def songs_input_if_passable(self,input_temp):
         if input_temp in self.list_passable:
             return input_temp           
-        elif input_temp == "p" or input_temp =="s" or input_temp == "v":
+        elif input_temp == "p" or input_temp =="s" or input_temp == "v" or input_temp == "n":
             self.check_for_song_inputs(input_temp)
             input_temp=self.get_input()
             return self.songs_input_if_passable(input_temp)
@@ -105,7 +107,13 @@ class Menu:
                                 song_current.set_volume(volume)
                                 break
                             else:
-                                print("Wpisz glośnosc jeszcze raz")   
+                                print("Wpisz glośnosc jeszcze raz")
+                    case 'n':
+                        if song_current.play_next_song(queue) == 0:
+                                print("Nie ma nic w playliscie")
+                        else:
+                            print("Odpalono nastepna piosenke z playlisty")
+
             except:
                 print("Nie ma puszczanej żadnej piosneki")   
 
@@ -134,6 +142,7 @@ class Menu:
                 song_current=song.Song(url)
                 song_current.set_volume(0.1)
                 song_current.play_song()
+                
                 print("Wciśnij p jeśli chcesz zpauzować/wznowić piosenke\nWciśnij s jeśli chcesz zatrzymać piosenke\nWciśnij 0 aby, wrocic do wyboru muzyki")
                 print('Wciśnij v jesli chcesz zmienic glośnosc')
                 print("Wciśnij n jeśli chcesz przesunąć o jedną piosenkę do przodu")      

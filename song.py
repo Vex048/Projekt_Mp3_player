@@ -33,7 +33,7 @@ class Song:
         mixer.music.set_volume(volumee)
         print("Ustawiono wartość dzwięku na:{}".format(volumee))
 
-    def pause_unpause_song(self):   
+    def pause_unpause_song(self): 
         if self.is_played==True and self.is_paused==False:
             mixer.music.pause()
             self.is_paused=True
@@ -60,8 +60,10 @@ class Song:
             next_song_url=current_queue.get_from_queue()
             print(next_song_url)
             self.stop_song()
-            new_song=Song(next_song_url) 
+            new_song=Song(next_song_url)
             new_song.play_song()
+            self.is_played=True
+            self.is_paused=False
     def queue_song(self,current_queue):
         if len(current_queue.songs_queue) == 0:
             print("nie ma aktualnie piosenki w playliscie")
