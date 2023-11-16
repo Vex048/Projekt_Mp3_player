@@ -148,7 +148,6 @@ class Menu:
                 print("Wciśnij n jeśli chcesz przesunąć o jedną piosenkę do przodu")      
                 while True:
                     queue.check_for_songs_queue(song_current)
-                    #song_current.queue_song(queue)
                     if song_current.check_if_finished() == True:
                         break
                     input_song=self.get_input()

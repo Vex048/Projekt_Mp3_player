@@ -43,7 +43,7 @@ class Song:
             self.is_paused=False
             print("Odpauzowano ppiosenke")
      
-    
+
     def stop_song(self):
         self.check_if_finished()
         if self.is_played == True:
@@ -60,16 +60,20 @@ class Song:
             next_song_url=current_queue.get_from_queue()
             print(next_song_url)
             self.stop_song()
+            
             new_song=Song(next_song_url)
             new_song.play_song()
             self.is_played=True
             self.is_paused=False
+
     def queue_song(self,current_queue):
         if len(current_queue.songs_queue) == 0:
             print("nie ma aktualnie piosenki w playliscie")
         else:
             next_song_url=current_queue.get_from_queue()
             mixer.music.queue(next_song_url)
+
+
          
               
 

@@ -5,6 +5,7 @@ class Queue:
     songs_queue=[]
     def __init__(self):
         self.songs_queue=[]
+        
 
     def get_song_to_queue(self,song):
         if song not in self.songs_queue:
@@ -20,6 +21,8 @@ class Queue:
         current_song=self.songs_queue[0]
         self.songs_queue.pop(0)
         return current_song
+    
+
     def create_queue_from_file(self):
         #os.chdir('C:\PROJEKT_Mp3Player\SONGS')
         export=Export_from_file.Exporter()
