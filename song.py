@@ -20,6 +20,8 @@ class Song:
         else:
             self.is_played=False  
         
+
+
     def input_for_playing_song(self,input):
         match input:
             case "p":
