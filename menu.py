@@ -3,6 +3,9 @@ import Import_from_file
 import Export_from_file
 import music_from_yt
 import queue_1
+import threading
+import time
+from multiprocessing import Process
 class Menu:
     list_passable=[]
     is_active=True
@@ -11,27 +14,56 @@ class Menu:
         print("---------------------")
         print('Witaj w odtwarzaczu MP3!!\nWybierz jedną z dostępnych opcji poniżej')
         print('1.Załaduj pliki\n2.Wypisz wszystkie piosenki\n3.Wyjdź\n4.Dodaj piosenkę')
-           
+ 
     def get_input(self):
             given_input = input()   
             return given_input
     
-            
+    def if_finished(self):
+        try:
+            song_current
+        except NameError:
+            return
+        if song_current:
+            if song_current.check_if_song_finished() == True:
+                song_current.play_next_song(queue)
+    
     def re_load_json(self):
         imported=Import_from_file.Importer()
         imported.import_mp3_to_json()
         self.check_for_passable_input()
+
+    def start_thread(self,function):
+        t1=threading.Thread(target=function)
+        return t1
+
+    def get_function_thread(self):
+        while self.is_active == True:
+            try:
+                song_current
+            except NameError:
+                pass
+            else:
+                time.sleep(0.1)
+                if song_current.check_if_song_finished() == True:
+                    song_current.play_next_song(queue)
+            
+
 
     def add_song(self):
         print("Wpisz url piosenki, którą chcesz dodać")
         new_song=input()
         if new_song=="0":
             return
-        x=music_from_yt.download_mp3(new_song)
+        try:
+            downloader_yt
+        except NameError:
+            downloader_yt=music_from_yt.downloader_from_youtube()
+        x=downloader_yt.download_to_mp4(new_song)
         print(x)
         name='D:\PROJEKT_MP3_PLAYER\SONGS\{}.mp4'.format(x)
         target_name='D:\PROJEKT_MP3_PLAYER\SONGS\{}.mp3'.format(x)
-        music_from_yt.from_mp4_to_mp3(name,target_name)
+        downloader_yt.from_mp4_to_mp3(name,target_name)
 
     def do_command(self,input1):
         match input1:
@@ -97,6 +129,7 @@ class Menu:
                         song_current.pause_unpause_song()
                     case 's': 
                         song_current.stop_song()
+                        print("Zatrzymano piosenke")
                         return  
                     case 'v':
                         print("Ustaw wartość dźwięku pomiędzy <0;1>")
@@ -142,7 +175,7 @@ class Menu:
                 song_current=song.Song(url)
                 song_current.set_volume(0.1)
                 song_current.play_song()
-                
+                #self.start_thread(self.get_function_thread())
                 print("Wciśnij p jeśli chcesz zpauzować/wznowić piosenke\nWciśnij s jeśli chcesz zatrzymać piosenke\nWciśnij 0 aby, wrocic do wyboru muzyki")
                 print('Wciśnij v jesli chcesz zmienic glośnosc')
                 print("Wciśnij n jeśli chcesz przesunąć o jedną piosenkę do przodu")      
@@ -156,6 +189,7 @@ class Menu:
                             song_current.pause_unpause_song()
                         case 's': 
                             song_current.stop_song()
+                            print("Zatrzymano piosenke")
                             self.print_songs_on_console()
                             return
                         case '0':                            
