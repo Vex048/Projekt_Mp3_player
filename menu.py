@@ -5,16 +5,26 @@ import music_from_yt
 import queue_1
 import threading
 import time
-from multiprocessing import Process
+import buttons
 class Menu:
     list_passable=[]
     is_active=True
     def __init__(self):
         self.is_active=True
+        self.pause_Button=buttons.pauseButton()
+        self.play_Button=buttons.playButton()
+        self.next_Button=buttons.nextButton()
+        self.volume_Button=buttons.volumeButton()
+        self.stop_Button=buttons.stopButton()
+
+    def enable_buttons(self):
+        self.pause_Button.set_enabled(True)
+        self.next_Button.set_enabled(True)
+        self.stop_Button.set_enabled(True)
+    def printMenu(self):
         print("---------------------")
         print('Witaj w odtwarzaczu MP3!!\nWybierz jedną z dostępnych opcji poniżej')
         print('1.Załaduj pliki\n2.Wypisz wszystkie piosenki\n3.Wyjdź\n4.Dodaj piosenkę')
- 
     def get_input(self):
             given_input = input()   
             return given_input
@@ -70,14 +80,14 @@ class Menu:
             case "1":
                 self.re_load_json()
                 print("Przeładowano plik json")
-                self.__init__()
+                self.printMenu()
             case "2":
                 self.print_songs_on_console()
             case "3":
                 self.is_active=False
             case "4":
                 self.add_song()
-                self.__init__()                        
+                self.printMenu()                   
             case "p":               
                 self.check_for_song_inputs(input1)
             case "s":
@@ -100,7 +110,7 @@ class Menu:
             
             new_input=self.songs_input_if_passable(input)
             if new_input == "0":
-                self.__init__()
+                self.printMenu()
                 return
             
             self.choose_song_to_play(str(new_input))
@@ -114,7 +124,7 @@ class Menu:
             input_temp=self.get_input()
             return self.songs_input_if_passable(input_temp)
         elif input_temp == "0":
-            self.__init__()
+            self.printMenu()
             return "0"
         else:
             print("Nie poprawny input")
@@ -159,7 +169,7 @@ class Menu:
 
     def choose_song_to_play(self,input1):
         if input1 ==  "0":
-            self.__init__()
+            self.printMenu()
             return
         exported=Export_from_file.Exporter()
         data=exported.read_from_json()
@@ -175,7 +185,7 @@ class Menu:
                 song_current=song.Song(url)
                 song_current.set_volume(0.1)
                 song_current.play_song()
-                #self.start_thread(self.get_function_thread())
+                self.enable_buttons()
                 print("Wciśnij p jeśli chcesz zpauzować/wznowić piosenke\nWciśnij s jeśli chcesz zatrzymać piosenke\nWciśnij 0 aby, wrocic do wyboru muzyki")
                 print('Wciśnij v jesli chcesz zmienic glośnosc')
                 print("Wciśnij n jeśli chcesz przesunąć o jedną piosenkę do przodu")      
@@ -186,9 +196,11 @@ class Menu:
                     input_song=self.get_input()
                     match input_song:
                         case 'p':
-                            song_current.pause_unpause_song()
+                            self.pause_Button.pauseUnpause(song_current)
+                            #song_current.pause_unpause_song()
                         case 's': 
-                            song_current.stop_song()
+                            self.stop_Button.stop(song_current)
+                            #song_current.stop_song()
                             print("Zatrzymano piosenke")
                             self.print_songs_on_console()
                             return
@@ -206,10 +218,15 @@ class Menu:
                                 else:
                                     print("Wpisz glośnosc jeszcze raz")  
                         case 'n':
-                            if song_current.play_next_song(queue) == 0:
+                            
+                            # if song_current.play_next_song(queue) == 0:
+                            #     print("Nie ma nic w playliscie")
+                            # else:
+                            #     print("Odpalono nastepna piosenke z playlisty")
+                            if self.next_Button.nextSong(song_current,queue) == 0:
                                 print("Nie ma nic w playliscie")
                             else:
-                                print("Odpalono nastepna piosenke z playlisty")                                                                                     
+                                print("Odpalono nastepna piosenke")                                                                                    
                         case _ :
                             print("Nie poprawny input")
     

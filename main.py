@@ -1,6 +1,6 @@
 import menu
 application=menu.Menu()
-
+application.printMenu()
 x=application.start_thread(application.get_function_thread)
 x.start()
 while application.is_active:
