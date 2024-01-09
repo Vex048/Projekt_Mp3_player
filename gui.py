@@ -87,10 +87,10 @@ class GUI:
 
     def creatingRootButtons(self):
         # Tworzenie wszystkich przycisków dotyczących sterowaniem odtwarzaczem
-        self.Pause_unpause=buttons.pauseButton(self.root,'gray',self.download_pause,self.buttonPauseAction,self.download_play,"white")
-        self.Next=buttons.nextButton(self.root,'gray',self.download_next,self.buttonNextAction,"white")
-        self.Previous=buttons.previousButton(self.root,'gray',self.download_previous,self.buttonPreviousAction,"white")
-        self.Stop=buttons.stopButton(self.root,'gray',self.download_stop,self.buttonStopAction,"white")
+        self.Pause_unpause=buttons.pauseButton(self.root,'gray',self.download_pause,self.PauseUnpauseSong,self.download_play,"white")
+        self.Next=buttons.nextButton(self.root,'gray',self.download_next,self.playNext,"white")
+        self.Previous=buttons.previousButton(self.root,'gray',self.download_previous,self.playPrevious,"white")
+        self.Stop=buttons.stopButton(self.root,'gray',self.download_stop,self.stopSong,"white")
         self.volumeScale=customtkinter.CTkSlider(master=self.root,variable=tk.DoubleVar(),from_=1,to=100,orientation='horizontal',command=self.setVolume)#,number_of_steps=0.01)
         self.volumeScale.set(10)
         self.LoopRandom=buttons.loopRandomButton(self.root,'gray',self.download_random,self.buttonLoopRandomAction,self.downolad_loop,"white")
@@ -139,14 +139,14 @@ class GUI:
         browseButton.pack(padx=0.5, pady=0.5)
         customtkinter.CTkButton(master=self.listSongFrame, text='Powrót', command=lambda:self.mainMenu.tkraise()).pack()
         
-        self.Listbox.bind("<Double-1>",self.activateSong) 
+        self.Listbox.bind("<Double-1>",self.playSong) 
 
     def creatingSongForListbox(self):
         i=0
         for filename in os.listdir(self.activeDirectory):
              i=i+1
              self.Listbox.insert(i,filename)
-    def activateSong(self,event):
+    def playSong(self,event):
         # Sama aktywacja wciśniętej piosenki
         self.controler.reloadJson()
         select=self.Listbox.curselection()
@@ -169,12 +169,12 @@ class GUI:
         self.controler.setVolume(volume/500)
 
     
-    def buttonStopAction(self):
+    def stopSong(self):
         # Akcja zatrzymania piosenki po wciśnięciu przycisku stop
         self.songName.configure(text="Nie ma akutalnie odtwarzanej piosenki")
         self.disableButtons() # Wyszarzenie przycisków
         self.controler.stopSong()
-    def buttonPauseAction(self):
+    def PauseUnpauseSong(self):
         self.controler.PauseUnpauseSong()
 
     def getNameFromUrl(self):
@@ -188,14 +188,14 @@ class GUI:
                 break
         nameSong=nameSong.join(tempList)
         return nameSong
-    def buttonNextAction(self):
+    def playNext(self):
         # Odtworzenie następnego utworu w kolejce w zależności od stanu kolejki 
         self.controler.playNext(self.LoopRandom.buttonState)
         name=self.getNameFromUrl()
         self.songName.configure(text=name)
         if self.Pause_unpause.buttonState == (-1):
             self.Pause_unpause.click_function()
-    def buttonPreviousAction(self):
+    def playPrevious(self):
         #Odtworzenie poprzedniej piosenki z playlisty
         self.controler.playPrevious()
         name=self.getNameFromUrl()
