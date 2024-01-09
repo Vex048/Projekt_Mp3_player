@@ -1,65 +1,71 @@
+from abc import abstractmethod
 import tkinter as tk
 import song
+from tkinter.messagebox import showinfo
+from PIL import Image, ImageTk
 
-
-class button:
-    def __init__(self):
-        self.is_clicked=False
-        self.button=None
-        self.__enabled=False
-    # def createButton(self):
-    #     button = tk.Button(root,text="Pause",width=25,command=root.destroy)
-    #     self.button=button
-    def set_enabled(self,temp):
-        self.__enabled=temp
-    def get_enabled(self):
-        x=self.__enabled
-        return x 
-
+class button(tk.Button): # Tworzenie klasy button dziedziczać klasę tk.Button 
+    def __init__(self,frame,col,icon,command,fg_color):
+        self.color = col
+        self.image=icon
+        self.frame=frame
+        self.fg_color=fg_color
+        super().__init__(frame) # Wywołoujemy konstruktor dla klasy tk.Button 
+        self['border']=0
+        self['bg'] = col
+        self['image']=icon
+        self['command']=command
+        self['state']="disabled"
+        self['highlightbackground']=fg_color
+        
+    @abstractmethod # Abstrackyjna metoda 
+    def click_function(self):
+        pass 
     
-class playButton(button):
-    pass
+
+class pauseButton(button):
+    def __init__(self, frame, col, icon,command,icon2,fg_color):
+        super().__init__(frame, col, icon,command,fg_color)
+        self.unclikced_imgae=icon2
+        self.clicked_image=icon
+        self.buttonState=1
+        self.bind("<Button-1>", self.click_function)
+    def click_function(self,event=None):
+        if self['state'] != "disabled":
+            self.buttonState = self.buttonState * (-1)
+            if self.buttonState == 1:
+                self['image']=self.clicked_image
+            else:
+                self['image']=self.unclikced_imgae
+
+
+class loopRandomButton(button):
+    def __init__(self, frame, col, icon, command,icon2,fg_color):
+        super().__init__(frame, col, icon, command,fg_color)
+        self.unclikced_imgae=icon2
+        self.clicked_image=icon
+        self.buttonState=1
+        self.bind("<Button-1>", self.click_function)
+        self['state']="normal"
+    def click_function(self,event=None):
+        if self['state'] != "disabled":
+            self.buttonState = self.buttonState * (-1)
+            if self.buttonState == 1:
+                self['image']=self.clicked_image
+            else:
+                self['image']=self.unclikced_imgae
 
 class nextButton(button):
-    def nextSong(self,current_song,queue):
-        temp=self.get_enabled()
-        if temp == True:
-            current_song.play_next_song(queue)
-            print("DZiała z guzika")
-        else:
-            print("Nie ma żadnej piosneki")
+    def __init__(self,frame,col,icon,command,fg_color):
+        super().__init__(frame, col, icon,command,fg_color) # Wywołany konstruktor klasy z której dziedziczymy
+        
 
+class previousButton(button):
+    def __init__(self,frame,col,icon,command,fg_color):
+        super().__init__(frame, col, icon,command,fg_color)
 
-class volumeButton(button):
-    def __init__(self):
-        self.set_enabled(True)
-    pass
 class stopButton(button):
-    def stop(self,current_song):
-        temp=self.get_enabled()
-        if temp == True:
-            current_song.stop_song()
-            print("DZiała z guzika")
-        else:
-            print("Nie ma żadnej piosneki")
-    
-    
-class pauseButton(button):
-    def pauseUnpause(self,current_song):
-        temp=self.get_enabled()
-        if temp == True:
-            current_song.pause_unpause_song()
-            print("DZiała z guzika")
-        else:
-            print("Nie ma żadnej piosneki")
-    
+    def __init__(self,frame,col,icon,command,fg_color):
+        super().__init__(frame, col, icon,command,fg_color)
+           
 
-
-
-
-
-# play_Button.button.pack()
-# root.mainloop()
-
-
-    

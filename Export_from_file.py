@@ -1,6 +1,6 @@
 import json
-
-class Exporter:
+import globaly
+class Exporter: # Class which is made to read from json 
     def __init__(self):
         pass
     def read_from_json(self):
