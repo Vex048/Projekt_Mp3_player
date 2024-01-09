@@ -65,7 +65,7 @@ class GUI:
         for frame in (self.mainMenu, self.addSongFrame, self.listSongFrame):
             frame.grid(row=0, column=0, sticky='news',pady=(0,100))
     
-    def getUrl(self):
+    def getSongUrl(self):
         # Getter URL do piosenki, którą chcemy pobrac z Yt
         url=self.entryUrl.get()
         self.entryUrl.delete(0, tk.END)
@@ -236,7 +236,7 @@ class GUI:
     
     def addSong(self):
         #Dodanie nowej piosenki
-        newSong=self.getUrl()
+        newSong=self.getSongUrl()
         temp=self.downolader.download_to_mp4(newSong)
         name='D:\PROJEKT_MP3_PLAYER\SONGS\{}.mp4'.format(temp)
         target_name='D:\PROJEKT_MP3_PLAYER\SONGS\{}.mp3'.format(temp)
