@@ -34,7 +34,7 @@ class GUI:
         while self.active==True:
             time.sleep(0.1)
             if self.controler.check_if_song_finished() == True:
-                self.buttonNextAction()
+                self.playNext()
 
     def initializeGui(self):
         # Inicjalizacja Wszystkich części GUI

@@ -16,10 +16,16 @@ class Song:
         return x
 
     def set_played(self,temp):
-        self.__is_played=temp
+        if (temp==True or temp==False):
+            self.__is_played=temp
+        else:
+            print("Atrybut piosenki może mieć tylko wartość True or False")
         
     def set_paused(self,temp):
-        self.__is_paused=temp
+        if (temp==True or temp==False):
+            self.__is_paused=temp
+        else:
+            print("Atrybut piosenki może mieć tylko wartość True or False")
         
     def get_played(self):
         x=self.__is_played
