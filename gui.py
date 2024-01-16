@@ -38,7 +38,7 @@ class GUI:
 
     def initializeGui(self):
         # Inicjalizacja Wszystkich części GUI
-        self.Images()
+        #self.Images()
         self.setRootParameters()
         self.setinngFrames()
         self.settingButtons()
@@ -87,14 +87,18 @@ class GUI:
 
     def creatingRootButtons(self):
         # Tworzenie wszystkich przycisków dotyczących sterowaniem odtwarzaczem
-        self.Pause_unpause=buttons.pauseButton(self.root,'gray',self.download_pause,self.PauseUnpauseSong,self.download_play,"white")
-        self.Next=buttons.nextButton(self.root,'gray',self.download_next,self.playNext,"white")
-        self.Previous=buttons.previousButton(self.root,'gray',self.download_previous,self.playPrevious,"white")
-        self.Stop=buttons.stopButton(self.root,'gray',self.download_stop,self.stopSong,"white")
+        # self.Pause_unpause=buttons.pauseButton(self.root,'gray',self.download_pause,self.PauseUnpauseSong,self.download_play,"white")
+        # self.Next=buttons.nextButton(self.root,'gray',self.download_next,self.playNext,"white")
+        # self.Previous=buttons.previousButton(self.root,'gray',self.download_previous,self.playPrevious,"white")
+        # self.Stop=buttons.stopButton(self.root,'gray',self.download_stop,self.stopSong,"white")
+        self.Pause_unpause=buttons.pauseButton(self.root,'gray',self.PauseUnpauseSong,"white")
+        self.Next=buttons.nextButton(self.root,'gray',self.playNext,"white")
+        self.Previous=buttons.previousButton(self.root,'gray',self.playPrevious,"white")
+        self.Stop=buttons.stopButton(self.root,'gray',self.stopSong,"white")
         self.volumeScale=customtkinter.CTkSlider(master=self.root,variable=tk.DoubleVar(),from_=1,to=100,orientation='horizontal',command=self.setVolume)#,number_of_steps=0.01)
         self.volumeScale.set(10)
-        self.LoopRandom=buttons.loopRandomButton(self.root,'gray',self.download_random,self.buttonLoopRandomAction,self.downolad_loop,"white")
-        self.Pause_unpause.place(x=485,y=550)
+        self.LoopRandom=buttons.loopRandomButton(self.root,'gray',self.buttonLoopRandomAction,"white")
+        self.Pause_unpause.place(x=483,y=545)
         self.Next.place(x=535,y=550)
         self.Previous.place(x=435,y=550)
         self.Stop.place(x=350,y=550)
@@ -117,15 +121,6 @@ class GUI:
         resize_image=image1.resize((35,35))
         button=ImageTk.PhotoImage(resize_image)
         return button
-    def Images(self):
-        #Ikony odtwarzacza
-        self.download_pause=self.resizeImage('./assets/pause.png')
-        self.download_next=self.resizeImage('./assets/next.png')
-        self.download_previous=self.resizeImage('./assets/previous.png')
-        self.download_stop=self.resizeImage('./assets/stop.png')
-        self.download_play=self.resizeImage('./assets/play.png')
-        self.downolad_loop=self.resizeImage('./assets/loop.png')
-        self.download_random=self.resizeImage('./assets/random.png')
 
     def creatingListBox(self):
         # Tworzenie Listboxu, dzięki któremu możemy odpalić daną piosenkę
@@ -221,17 +216,27 @@ class GUI:
 
     def enableButtons(self):
         #Aktywacja przycisków
-        self.Pause_unpause['state']="normal"
-        self.Stop['state']="normal"
-        self.Next['state']="normal"
-        self.Previous['state']="normal"
+        # self.Pause_unpause['state']="normal"
+        # self.Stop['state']="normal"
+        # self.Next['state']="normal"
+        # self.Previous['state']="normal"
+        self.Pause_unpause.setEnable()
+        self.Stop.setEnable()
+        self.Next.setEnable()
+        self.Previous.setEnable()
+        self.LoopRandom.setEnable()
 
     def disableButtons(self):
         #Dezaktywacja przyciskow
-        self.Pause_unpause['state']="disabled"
-        self.Stop['state']="disabled"
-        self.Next['state']="disabled"
-        self.Previous['state']="disabled"
+        # self.Pause_unpause['state']="disabled"
+        # self.Stop['state']="disabled"
+        # self.Next['state']="disabled"
+        # self.Previous['state']="disabled"
+        self.Pause_unpause.setDisabled()
+        self.Stop.setDisabled()
+        self.Next.setDisabled()
+        self.Previous.setDisabled()
+        self.LoopRandom.setDisabled()
 
     
     def addSong(self):
