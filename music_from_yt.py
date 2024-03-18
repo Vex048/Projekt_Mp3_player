@@ -1,7 +1,7 @@
 from pytube import YouTube 
 import os 
 from moviepy.editor import *
-download_directory='D:\PROJEKT_MP3_PLAYER\SONGS'
+import globaly
 
 # def download_mp3(url):
 #     url=YouTube(url)
@@ -24,7 +24,7 @@ download_directory='D:\PROJEKT_MP3_PLAYER\SONGS'
 class downloader_from_youtube: # Class which is gonna download a file from yt
      download_directory=""
      def __init__(self):
-          self.download_directory="D:\PROJEKT_MP3_PLAYER\SONGS"
+          self.download_directory=globaly.activeDirectory
           self.counter=0
           
      def download_to_mp4(self,url):
@@ -50,16 +50,3 @@ class downloader_from_youtube: # Class which is gonna download a file from yt
 
             
 
-
-
-# class downloaderG:
-#     def __init__(self):
-#         self.download_directory="D:\PROJEKT_MP3_PLAYER\SONGS"
-#     def downlaod(self,url):
-#         yt = YouTube(str(url))
-#         video = yt.streams.filter(only_audio=True).first()
-#         out_file = video.download(output_path=self.download_directory)  
-#         base, ext = os.path.splitext(out_file) 
-#         new_file = base + '.mp3'
-#         os.rename(out_file, new_file) 
-#         print("DOne")

@@ -243,8 +243,8 @@ class GUI:
         #Dodanie nowej piosenki
         newSong=self.getSongUrl()
         temp=self.downolader.download_to_mp4(newSong)
-        name='D:\PROJEKT_MP3_PLAYER\SONGS\{}.mp4'.format(temp)
-        target_name='D:\PROJEKT_MP3_PLAYER\SONGS\{}.mp3'.format(temp)
+        name=globaly.activeDirectory+'/{}.mp4'.format(temp)
+        target_name=globaly.activeDirectory+'/{}.mp3'.format(temp)
         temp=temp.replace(",","")
         temp=temp.replace(".","")
         temp=temp.replace("'","")

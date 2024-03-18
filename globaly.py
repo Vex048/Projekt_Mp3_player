@@ -1,3 +1,4 @@
 def init():
-    global activeDirectory
+    global activeDirectory,jsonfile
     activeDirectory="D:/PROJEKT_MP3_PLAYER/SONGS"
+    jsonfile='D:\PROJEKT_MP3_PLAYER\playlist.json'

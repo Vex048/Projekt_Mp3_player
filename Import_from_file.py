@@ -17,7 +17,7 @@ class Importer: # Klasa dzięki, której zapisujemy pliki mp3 z folderu jsona, k
             audio=eyed3.load(f)
             mydict={'title': str(audio)}
             all_songs.append(mydict)
-            with open('D:\PROJEKT_MP3_PLAYER\playlist.json','w') as f:
+            with open(globaly.jsonfile,'w') as f:
                 f.write(json.dumps(all_songs,indent =2))
      
 
